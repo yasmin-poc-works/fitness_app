@@ -312,7 +312,8 @@ if st.session_state.last_error:
         "Set `GROQ_API_KEY` in your environment or `.env` file, then click Generate Plan again."
     )
 elif st.session_state.last_plan:
-    st.markdown(st.session_state.last_plan)
+    with st.container(border=True):
+        st.markdown(st.session_state.last_plan)
 
     # Generate docx bytes
     docx_data = convert_to_docx(st.session_state.last_plan)

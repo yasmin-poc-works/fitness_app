@@ -61,7 +61,7 @@ def build_messages(preferences: WorkoutPreferences) -> list[dict[str, str]]:
         "You are an experienced personal trainer and fitness programmer. "
         "Create safe, practical weekly workout plans that respect the user's constraints. "
         "Return the plan in clean markdown with clear day-by-day sections, exercise lists, sets, reps, "
-        "rest times, and a short warm-up. Keep the plan realistic for a real person to follow. "
+        "rest times, tables where helpful, and a short warm-up. Keep the plan realistic for a real person to follow. "
         "Do not give medical advice or diagnose injuries."
     )
 
@@ -83,9 +83,13 @@ Formatting rules:
 - Use headings like "Day 1", "Day 2", etc.
 - For each training day, include warm-up, main workout, and optional finisher or mobility work.
 - For each exercise, include sets and reps, or duration for cardio.
+- Use markdown tables for compact weekly summaries or progress notes when helpful.
+- Use markdown links when mentioning external resources or references.
 - Include rest days if there are fewer training days than days in the week.
 - Keep the response concise, scannable, and specific.
 - If the user has limitations, add a brief safety disclaimer at the end.
+- Add how many days this training plan should be followed to reach the user's goal weight.
+- Include a note that results may vary based on diet, sleep, and other factors.
 """.strip()
 
     return [
@@ -116,7 +120,7 @@ def generate_workout_plan(
             model=resolved_model,
             messages=messages,
             temperature=0.7,
-            max_tokens=1400,
+            max_tokens=3000,
         )
         content = (response.choices[0].message.content or "").strip()
         if not content:
